@@ -20,7 +20,7 @@ public class TestController {
         this.testService = testService;
     }
 
-    @GetMapping("/tests")
+    @GetMapping("/getTests")
     public ResponseEntity getTests(){
         return ResponseEntity.ok(testService.getAll());
     }
