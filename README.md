@@ -21,7 +21,7 @@ sudo docker-compose up
 
 Then try
 
-_http://<host_name>:8080/test_
+_http://<host_name>:8080/getTests_
 
 Your hav to see 
 
