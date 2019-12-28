@@ -1,30 +1,24 @@
-package com.dockerspring.test.web;
+package com.dockerspring.test.controller;
 
 import com.dockerspring.test.entity.User;
 import com.dockerspring.test.service.UserAuthenticationService;
 import com.dockerspring.test.service.UserCrudService;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static lombok.AccessLevel.PRIVATE;
-import static lombok.AccessLevel.PACKAGE;
-
 @RestController
-@RequestMapping("/public/users")
-@FieldDefaults(level = PRIVATE, makeFinal = true)
-@AllArgsConstructor(access = PACKAGE)
+@RequestMapping("/users")
 final class PublicUsersController {
 
-    @NonNull
-    UserAuthenticationService authentication;
+    private UserAuthenticationService authentication;
+    private UserCrudService users;
 
-    @NonNull
-    UserCrudService users;
+    PublicUsersController(UserAuthenticationService authentication, UserCrudService users) {
+        this.authentication = authentication;
+        this.users = users;
+    }
 
     @PostMapping("/register")
     String register(@RequestParam("username") final String username, @RequestParam("password") final String password) {

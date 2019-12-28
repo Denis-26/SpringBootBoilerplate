@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,8 @@ final class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticatio
     }
 
     @Override
-    protected UserDetails retrieveUser(final String username, final UsernamePasswordAuthenticationToken authentication) {
+    protected UserDetails retrieveUser(final String username, final UsernamePasswordAuthenticationToken authentication)
+            throws AuthenticationException {
         final Object token = authentication.getCredentials();
         return Optional
                 .ofNullable(token)

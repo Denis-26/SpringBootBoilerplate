@@ -31,7 +31,8 @@ final class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFi
     }
 
     @Override
-    public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
+    public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response)
+            throws AuthenticationException {
 
         final String param = ofNullable(request.getHeader(AUTHORIZATION)).orElse(request.getParameter("t"));
 
@@ -52,12 +53,5 @@ final class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFi
 
         super.successfulAuthentication(request, response, chain, authResult);
         chain.doFilter(request, response);
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
-            throws IOException, ServletException {
-
-        getFailureHandler().onAuthenticationFailure(request, response, failed);
     }
 }
