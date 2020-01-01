@@ -2,8 +2,6 @@ package com.dockerspring.test.config;
 
 import com.dockerspring.test.service.UserAuthenticationService;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
@@ -13,26 +11,21 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static lombok.AccessLevel.PACKAGE;
-import static lombok.AccessLevel.PRIVATE;
-
 @Component
-@AllArgsConstructor(access = PACKAGE)
-@FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 final class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    @NonNull
-    UserAuthenticationService auth;
+    private final UserAuthenticationService auth;
 
     @Override
-    protected void additionalAuthenticationChecks(final UserDetails d, final UsernamePasswordAuthenticationToken auth) {
+    protected void additionalAuthenticationChecks(final UserDetails d, final UsernamePasswordAuthenticationToken auth)
+            throws AuthenticationException  {
         // Nothing to do
     }
 
     @Override
-    protected UserDetails retrieveUser(final String username, final UsernamePasswordAuthenticationToken authentication)
+    protected UserDetails retrieveUser(String token, UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
-        final Object token = authentication.getCredentials();
         return Optional
                 .ofNullable(token)
                 .map(String::valueOf)

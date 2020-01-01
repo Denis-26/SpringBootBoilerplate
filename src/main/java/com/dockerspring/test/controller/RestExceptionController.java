@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Log4j2
 @RestControllerAdvice
 public class RestExceptionController {
+
     private final HttpServletRequest request;
 
     @Autowired
@@ -46,13 +48,18 @@ public class RestExceptionController {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ActionResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ActionResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return ActionResult.fail(e.getBindingResult().getFieldErrors());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ActionResult handleAccessDeniedException(){
         return ActionResult.fail(HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ActionResult handleAuthenticationException(){
+        return ActionResult.fail(HttpStatus.UNAUTHORIZED);
     }
 
     private Map<String, Object> getRequestHeaders(){

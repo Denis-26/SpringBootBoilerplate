@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorResponse {
+
     private String fieldName;
     private String errorMessage;
 
