@@ -21,20 +21,5 @@ sudo docker-compose up
 
 Then try
 
-_http://<host_name>:8080/getTests_
-
-Your hav to see 
-
-```[
-      {
-        "id": 1,
-        "title": "Test1",
-        "value":"OK"
-      },
-      {
-        "id": 2,
-        "title": "Test2",
-        "value": "OK"
-       }
-    ]
-```
+_http://<host_name>:8080/users/login?username=test&password=1234_
+_http://<host_name>:8080/api/users/current
