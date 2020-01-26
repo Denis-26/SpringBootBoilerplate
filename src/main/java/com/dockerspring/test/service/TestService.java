@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class TestService {
+public class TestService implements ITestService {
 
     private TestRepository testRepository;
 

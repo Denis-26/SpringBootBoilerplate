@@ -21,6 +21,8 @@ sudo docker-compose up
 
 Then try
 
-_http://<host_name>:8080/users/login?username=test&password=1234_
-
-_http://<host_name>:8080/api/users/current_
+    localhost:8080/users/login?username=Test&password=1234
+    
+    localhost:8080/api/users/current?username=Test&password=1234
+    
+    localhost:8080/api/users/testInfo?username=Test&password=1234

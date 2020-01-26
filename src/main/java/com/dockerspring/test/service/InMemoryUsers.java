@@ -17,7 +17,12 @@ final class InMemoryUsers implements UserCrudService {
 
     @Override
     public User save(final User user) {
-        return users.put(user.getId(), user);
+        return users.put(user.getUsername(), user);
+    }
+
+    @Override
+    public Boolean remove(final User user) {
+        return users.remove(user.getUsername(), user);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.dockerspring.test.config;
 
 import com.dockerspring.test.security.NoRedirectStrategy;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,15 +21,15 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PROTECTED_URLS = new AntPathRequestMatcher("/api/**");
 
-    private final TokenAuthenticationProvider provider;
+    private final MyAuthenticationProvider myAuthenticationProvider;
 
-    SecurityConfig(final TokenAuthenticationProvider provider) {
-        this.provider = provider;
+    SecurityConfig(MyAuthenticationProvider myAuthenticationProvider) {
+        this.myAuthenticationProvider = myAuthenticationProvider;
     }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(provider);
+        auth.authenticationProvider(myAuthenticationProvider);
     }
 
     @Override
@@ -42,7 +41,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
                 .and()
-                .authenticationProvider(provider)
+                .authenticationProvider(myAuthenticationProvider)
                 .addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class)
                 .authorizeRequests()
                 .requestMatchers(PROTECTED_URLS)
@@ -55,8 +54,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    TokenAuthenticationFilter restAuthenticationFilter() throws Exception {
-        final TokenAuthenticationFilter filter = new TokenAuthenticationFilter(PROTECTED_URLS);
+    AuthenticationFilter restAuthenticationFilter() throws Exception {
+        final AuthenticationFilter filter = new AuthenticationFilter(PROTECTED_URLS);
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(successHandler());
         return filter;
@@ -73,12 +72,4 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     AuthenticationEntryPoint forbiddenEntryPoint() {
         return new HttpStatusEntryPoint(FORBIDDEN);
     }
-
-    @Bean
-    public FilterRegistrationBean disableAutoRegistration(final TokenAuthenticationFilter filter) {
-        final FilterRegistrationBean registration = new FilterRegistrationBean(filter);
-        registration.setEnabled(false);
-        return registration;
-    }
-
 }

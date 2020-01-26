@@ -4,6 +4,7 @@ import com.dockerspring.test.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,8 +18,8 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 final class UUIDAuthenticationService implements UserAuthenticationService {
 
-    @NonNull
-    UserCrudService users;
+    @NonNull UserCrudService users;
+    BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Optional<String> login(final String username, final String password) {
@@ -27,7 +28,7 @@ final class UUIDAuthenticationService implements UserAuthenticationService {
                 .builder()
                 .id(uuid)
                 .username(username)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .build();
 
         users.save(user);
@@ -35,12 +36,12 @@ final class UUIDAuthenticationService implements UserAuthenticationService {
     }
 
     @Override
-    public Optional<User> findByToken(final String token) {
-        return users.find(token);
+    public Optional<User> findByUserName(final String username) {
+        return users.find(username);
     }
 
     @Override
     public void logout(final User user) {
-
+        users.remove(user);
     }
 }

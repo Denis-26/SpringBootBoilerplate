@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+
+// This not used
 @Component
 @AllArgsConstructor
 final class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
@@ -29,7 +31,7 @@ final class TokenAuthenticationProvider extends AbstractUserDetailsAuthenticatio
         return Optional
                 .ofNullable(token)
                 .map(String::valueOf)
-                .flatMap(auth::findByToken)
+                .flatMap(auth::findByUserName)
                 .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with authentication token=" + token));
     }
 }
