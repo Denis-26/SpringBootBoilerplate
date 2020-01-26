@@ -20,9 +20,9 @@ sudo docker-compose up
 ```
 
 Then try
-
-    localhost:8080/users/login?username=Test&password=1234
     
-    localhost:8080/api/users/current?username=Test&password=1234
+    curl -d "username=Test&password=1234" -X POST localhost:8080/users/login
     
-    localhost:8080/api/users/testInfo?username=Test&password=1234
+    curl -d "username=Test&password=1234" -X POST localhost:8080/api/users/current
+    
+    curl -d "username=Test&password=1234" -X POST localhost:8080/api/users/testInfo
