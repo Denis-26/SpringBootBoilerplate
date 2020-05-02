@@ -1,5 +1,6 @@
 package com.dockerspring.test;
 
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,21 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@Configuration
-@EnableAspectJAutoProxy(exposeProxy = true, proxyTargetClass = true)
-@EnableWebMvc
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @SpringBootApplication
 public class TestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TestApplication.class, args);
-	}
-
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		SpringApplication app = new SpringApplication(TestApplication.class);
+		app.setBannerMode(Banner.Mode.OFF);
+		app.run(args);
 	}
 
 }

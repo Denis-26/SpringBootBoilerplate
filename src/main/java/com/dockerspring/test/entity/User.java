@@ -1,71 +1,42 @@
 package com.dockerspring.test.entity;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "users")
+public class User {
 
-import java.util.ArrayList;
-import java.util.Collection;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-import static java.util.Objects.requireNonNull;
+    @Column(name = "username")
+    private String username;
 
-@Value
-@Builder
-public class User implements UserDetails {
-    private static final long serialVersionUID = 2396654715019746670L;
+    @Column(name = "password")
+    private String password;
 
-    String id;
-    String username;
-    String password;
-
-    @JsonCreator
-    User(@JsonProperty("id") final String id,
-         @JsonProperty("username") final String username,
-         @JsonProperty("password") final String password) {
-        super();
-        this.id = requireNonNull(id);
-        this.username = requireNonNull(username);
-        this.password = requireNonNull(password);
+    public Long getId() {
+        return id;
     }
 
-    @JsonIgnore
-    @Override
-    public Collection<GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @JsonIgnore
-    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
 
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
-    @JsonIgnore
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
 }

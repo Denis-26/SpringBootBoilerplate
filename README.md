@@ -21,8 +21,12 @@ sudo docker-compose up
 
 Then try
 
-    localhost:8080/users/login?username=Test&password=1234
+    POST http://localhost.ru:8080/rest/api/sign_up?username=Denis&password=1234
     
-    localhost:8080/api/users/current?username=Test&password=1234
+    POST http://localhost.ru:8080/rest/api/sign_in?username=Denis&password=1234
+
+    POST http://localhost.ru:8080/rest/api/data/create?dataName=TestDataName
     
-    localhost:8080/api/users/testInfo?username=Test&password=1234
+    GET http://localhost.ru:8080/rest/api/datas
+    
+    GET http://localhost.ru:8080/rest/api/data?id=0
