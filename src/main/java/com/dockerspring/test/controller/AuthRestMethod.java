@@ -1,5 +1,6 @@
 package com.dockerspring.test.controller;
 
+import com.dockerspring.test.dto.UserDetailsModel;
 import com.dockerspring.test.dto.UserDto;
 import com.dockerspring.test.entity.User;
 import com.dockerspring.test.service.SecurityService;
@@ -25,12 +26,12 @@ public class AuthRestMethod {
     private SecurityService securityService;
 
     @PostMapping("/sign_in")
-    public UserDto sign_in(@RequestParam String username, @RequestParam String password) {
+    public UserDto sign_in(@RequestBody UserDetailsModel userDetailsModel) {
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        user.setUsername(userDetailsModel.getUsername());
+        user.setPassword(userDetailsModel.getPassword());
 
-        UserDetails userDetails = securityService.autoLogin(username, password);
+        UserDetails userDetails = securityService.autoLogin(userDetailsModel.getUsername(), userDetailsModel.getPassword());
         UserDto newUser = new UserDto();
         newUser.setUsername(userDetails.getUsername());
 
@@ -38,13 +39,13 @@ public class AuthRestMethod {
     }
 
     @PostMapping("/sign_up")
-    public UserDto sign_up(@RequestParam String username, @RequestParam String password) {
+    public UserDto sign_up(@RequestBody UserDetailsModel userDetailsModel) {
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        user.setUsername(userDetailsModel.getUsername());
+        user.setPassword(userDetailsModel.getPassword());
 
         userService.save(user);
-        UserDetails userDetails = securityService.autoLogin(username, password);
+        UserDetails userDetails = securityService.autoLogin(userDetailsModel.getUsername(), userDetailsModel.getPassword());
 
         UserDto newUser = new UserDto();
         newUser.setUsername(userDetails.getUsername());
