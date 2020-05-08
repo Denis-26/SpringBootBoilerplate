@@ -18,15 +18,3 @@ sudo service docker start
 ```
 sudo docker-compose up
 ```
-
-Then try
-
-    POST http://localhost.ru:8080/rest/api/sign_up?username=Denis&password=1234
-    
-    POST http://localhost.ru:8080/rest/api/sign_in?username=Denis&password=1234
-
-    POST http://localhost.ru:8080/rest/api/data/create?dataName=TestDataName
-    
-    GET http://localhost.ru:8080/rest/api/datas
-    
-    GET http://localhost.ru:8080/rest/api/data?id=0
